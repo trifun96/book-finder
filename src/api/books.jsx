@@ -1,4 +1,5 @@
 const BASE_URL = "https://openlibrary.org";
+const BOOK_COVER_URL = "https://covers.openlibrary.org";
 
 export async function searchBooks(searchTerm) {
   const response = await fetch(`${BASE_URL}/search.json?title=${encodeURIComponent(searchTerm)}`);
@@ -10,10 +11,29 @@ export async function searchBooks(searchTerm) {
 
 export async function getBookDetails(id) {
   const response = await fetch(`${BASE_URL}/works/${id}.json`);
-  if (!response.ok) throw new Error("Failed to fetch book details");
+  if (!response.ok) {
+    throw new Error("Failed to fetch book details");
+  }
   return await response.json();
 }
 
+export async function getAuthorDetails(authorKey) {
+  const response = await fetch(`${BASE_URL}${authorKey}.json`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch author details");
+  }
+  return await response.json();
+}
+
+export async function getWorkEditions(id) {
+  const response = await fetch(`${BASE_URL}/works/${id}/editions.json`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch editions");
+  }
+  const data = await response.json();
+  return data.entries || [];
+}
+
 export function getBookCoverUrl(coverId, size = "L") {
-  return `https://covers.openlibrary.org/b/id/${coverId}-${size}.jpg`;
+  return `${BOOK_COVER_URL}/b/id/${coverId}-${size}.jpg`;
 }
