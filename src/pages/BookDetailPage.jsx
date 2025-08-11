@@ -6,6 +6,8 @@ import {
 } from "../api/books";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { addBook } from "../features/viewedBooks/viewedBookSlice";
 
 export default function BookDetailsPage() {
   const { id } = useParams();
@@ -14,6 +16,7 @@ export default function BookDetailsPage() {
   const [authors, setAuthors] = useState([]);
   const [publishYear, setPublishYear] = useState(null);
   const [isbn, setIsbn] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function fetchData() {
@@ -30,12 +33,20 @@ export default function BookDetailsPage() {
         setAuthors(authorNames);
       }
 
+      dispatch(
+        addBook({
+          key: data.key,
+          title: data.title,
+          coverId: data.covers?.[0] || null,
+        })
+      );
+
       try {
         const editions = await getWorkEditions(id);
         if (editions.length > 0) {
           const firstEdition = editions[0];
-          const pubDate = firstEdition.publish_date;
-          setPublishYear(pubDate || "Unknown");
+          const publishDate = firstEdition.publish_date;
+          setPublishYear(publishDate || "Unknown");
 
           const isbn13 = firstEdition.isbn_13?.[0];
           const isbn10 = firstEdition.isbn_10?.[0];
@@ -48,7 +59,7 @@ export default function BookDetailsPage() {
       }
     }
     fetchData();
-  }, [id]);
+  }, [id, dispatch]);
 
   if (!book) {
     return <p>Loading book details...</p>;
@@ -57,11 +68,8 @@ export default function BookDetailsPage() {
   const coverUrl = book.covers?.length ? getBookCoverUrl(book.covers[0]) : null;
 
   return (
-    <div className="container mt-4">
-      <button
-        className="btn btn-secondary mb-3"
-        onClick={() => navigate(-1)}
-      >
+    <div className="container mt-3">
+      <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
         ← Back
       </button>
 
