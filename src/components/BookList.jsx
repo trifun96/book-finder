@@ -26,8 +26,8 @@ export default function BookList({ books }) {
         }}
       >
         No books found for your search. Try typing a book title in the search
-        bar above and press Enter to start your search. You can also type just
-        part of a title, we will do the rest!
+        bar above to start your search. You can also type just part of a title,
+        we will do the rest!
       </p>
     );
   }
