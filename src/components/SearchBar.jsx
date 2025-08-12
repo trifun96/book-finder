@@ -1,17 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function SearchBar({ onSearch }) {
   const [term, setTerm] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (term.trim()) {
-      onSearch(term.trim());
+  useEffect(() => {
+    const trimmed = term.trim();
+
+    if (!trimmed) {
+      setError("");
+      onSearch("");
+      return;
     }
-  };
+
+    if (trimmed.length < 3) {
+      setError("Please enter at least 3 characters to search.");
+      onSearch("");
+      return;
+    }
+
+    setError("");
+
+    const timeoutId = setTimeout(() => {
+      onSearch(trimmed);
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [term, onSearch]);
 
   return (
-    <form onSubmit={handleSubmit} className="mb-3">
+    <div>
       <input
         type="text"
         placeholder="Search book by title..."
@@ -19,9 +37,7 @@ export default function SearchBar({ onSearch }) {
         onChange={(e) => setTerm(e.target.value)}
         className="form-control"
       />
-      <button type="submit" className="btn btn-primary mt-2">
-        Search
-      </button>
-    </form>
+      {error && <small style={{ color: "red" }}>{error}</small>}
+    </div>
   );
 }

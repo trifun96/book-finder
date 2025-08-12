@@ -2,7 +2,13 @@ const BASE_URL = "https://openlibrary.org";
 const BOOK_COVER_URL = "https://covers.openlibrary.org";
 
 export async function searchBooks(searchTerm) {
-  const response = await fetch(`${BASE_URL}/search.json?title=${encodeURIComponent(searchTerm)}`);
+  if (!searchTerm.trim()) {
+    return [];
+  }
+
+  const response = await fetch(
+    `${BASE_URL}/search.json?title=${encodeURIComponent(searchTerm)}`
+  );
   if (!response.ok) throw new Error("Failed to fetch books");
   const data = await response.json();
 
