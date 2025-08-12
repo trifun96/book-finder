@@ -1,11 +1,10 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { getBookCoverUrl } from "../../api/books";
 import "./BookCard.css";
 
 export default function BookCard({ book }) {
   const coverUrl = getBookCoverUrl(book.cover_i);
-  const workId = book.key.split("/").pop();
+  const workId = book?.key ? book.key.split("/").pop() : null;
 
   return (
     <Link
@@ -24,4 +23,3 @@ export default function BookCard({ book }) {
     </Link>
   );
 };
-

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TextField from "@mui/material/TextField";
 
 export default function SearchBar({ onSearch }) {
   const [term, setTerm] = useState("");
@@ -29,15 +30,18 @@ export default function SearchBar({ onSearch }) {
   }, [term, onSearch]);
 
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Search book by title..."
+    <div style={{ marginTop: "30px" }}>
+      <TextField
+        label="Search book by title"
+        variant="outlined"
         value={term}
         onChange={(e) => setTerm(e.target.value)}
-        className="form-control"
+        fullWidth
+        size="small"
+        error={Boolean(error)}
+        helperText={error}
+        placeholder="Search book by title..."
       />
-      {error && <small style={{ color: "red" }}>{error}</small>}
     </div>
   );
 }

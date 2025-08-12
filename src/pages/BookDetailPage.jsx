@@ -65,7 +65,7 @@ useEffect(() => {
   }
 
   fetchData();
-}, [id]);
+}, [id, dispatch]);
 
 
   const coverUrl = book?.covers?.length
@@ -76,7 +76,7 @@ useEffect(() => {
     <div className="container mt-3">
       {loading && <Spinner />}
 
-      <button className="btn btn-secondary mb-3" onClick={() => navigate(-1)}>
+      <button className="btn btn-primary mb-3" onClick={() => navigate(-1)}>
         ← Back
       </button>
 

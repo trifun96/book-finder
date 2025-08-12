@@ -5,6 +5,7 @@ import ViewedBooks from "../components/ViewedBooks";
 import { searchBooks } from "../api/books";
 import { useSelector, shallowEqual } from "react-redux";
 import Spinner from "../components/Spinner";
+import Header from "../components/Header";
 
 export default function LandingPage() {
   const [books, setBooks] = useState([]);
@@ -30,7 +31,7 @@ export default function LandingPage() {
 
   return (
     <div className="container mt-4">
-      <h1>Book Finder</h1>
+      <Header/>
       <SearchBar onSearch={handleSearch} />
       {loading && <Spinner />}
       {error && <p className="text-danger">{error}</p>}

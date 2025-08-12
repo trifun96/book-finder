@@ -15,7 +15,16 @@ const ViewedBooks = React.memo(({ viewedBooks }) => {
   return (
     <div className="container mt-4 mb-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2>Previously viewed books:</h2>
+        <h2
+          style={{
+            fontFamily: '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+            fontSize: "1.5rem",
+            lineHeight: "1.6",
+            color: "#555",
+          }}
+        >
+          Previously viewed books:
+        </h2>
         <button className="btn btn-primary btn-sm" onClick={handleClear}>
           Clear All
         </button>
@@ -24,10 +33,10 @@ const ViewedBooks = React.memo(({ viewedBooks }) => {
       <div className="d-flex flex-wrap gap-4">
         {viewedBooks.map((book) => (
           <BookCard
-            key={book.key}
             book={{
               title: book.title,
               cover_i: book.coverId,
+              key: book.key,
             }}
           />
         ))}
